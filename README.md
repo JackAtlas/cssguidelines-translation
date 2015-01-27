@@ -78,11 +78,11 @@
 	3. 80个字宽
 	4. 标题
 	5. 规则的结构
-	6. Multi-line CSS
+	6. 多行 CSS
 	7. 缩进
 		1. Sass 缩进
 		2. 对齐
-	8. Meaningful Whitespace
+	8. 有意义的空行
 	9. HTML
 3. 注释
 	1. High-level
@@ -391,3 +391,213 @@ CSS 不是一门优美的语言。尽管入门容易，但在任何合理的规�
 > This format seems to be the largely universal standard (except for variations in number of spaces, with a lot of developers preferring two (2)).
 
 > As such, the following would be incorrect:
+
+这种格式似乎是比较通用的标准（除了缩进的空格数，很多开发者倾向于2个空格）。
+
+因此，下面的代码是不正确的：
+
+	.foo, .foo--bar, .baz
+	{
+		display:block;
+		background-color:green;
+		color:red }
+
+> Problems here include
+
+>
+- tabs instead of spaces;
+- unrelated selectors on the same line;
+- the opening brace ({) on its own line;
+- the closing brace (}) does not sit on its own line;
+- the trailing (and, admittedly, optional) semi-colon (;) is missing;
+- no spaces after colons (:).
+
+这里的问题有：
+
+- tab 缩进而不是空格缩进；
+- 无关的选择器在同一行；
+- 花括号（{）独立一行；
+- 花括号（}）没有独立一行；
+- 最后一个分号（;）缺失；
+- 冒号（:）后面没有空格。
+
+### 多行 CSS（Multiple Files） ###
+> CSS should be written across multiple lines, except in very specific circumstances. There are a number of benefits to this:
+
+>
+- A reduced chance of merge conflicts, because each piece of functionality exists on its own line.
+- More ‘truthful’ and reliable **diff**s, because one line only ever carries one change.
+
+CSS 应该分成多行书写，特别是在某些特定的环境下。这样会有很多好处：
+
+- 代码合并时冲突的概率降低，因为每一条功能独立一行；
+- 更“真实”可靠的文件比较，因为每一行只有一个变化。
+
+> Exceptions to this rule should be fairly apparent, such as similar rulesets that only carry one declaration each, for example:
+
+这条规则的特例显而易见，比如只有一条声明的相似规则：
+
+	.icon {
+	    display: inline-block;
+	    width:  16px;
+	    height: 16px;
+	    background-image: url(/img/sprite.svg);
+	}
+	
+	.icon--home     { background-position:   0     0  ; }
+	.icon--person   { background-position: -16px   0  ; }
+	.icon--files    { background-position:   0   -16px; }
+	.icon--settings { background-position: -16px -16px; }
+
+These types of ruleset benefit from being single-lined because
+
+- they still conform to the one-reason-to-change-per-line rule;
+- they share enough similarities that they don’t need to be read as thoroughly as other rulesets—there is more benefit in being able to scan their selectors, which are of more interest to us in these cases.
+
+这种规则比单行写法更好，因为：
+
+- 依然服从“一个改变一行”的原则；
+- 这几行代码有足够的相似度，因为阅读它们不像阅读其他代码那样仔细，更容易看到它们的选择器，这是我们更感兴趣的。
+
+### 缩进（Indenting） ###
+> As well as intending individual declarations, indent entire related rulesets to signal their relation to one another, for example:
+
+就像突出独立声明一样，将关联的规则通过缩进来展现其相关性，例如：
+
+	.foo {}
+
+		.foo__bar {}
+
+			.foo__baz {}
+
+> By doing this, a developer can see at a glance that `.foo__baz {}` lives inside `.foo__bar {}` lives inside `.foo {}`.
+
+这样做，开发者一看就能知道 `.foo__baz {}` 在 `.foo__bar {}` 里，而 `.foo__bar {}` 又在 `.foo {}` 里。
+
+> This quasi-replication of the DOM tells developers a lot about where classes are expected to be used without them having to refer to a snippet of HTML.
+
+这种像 DOM 折叠结构的写法告诉开发者们这些类应当在哪里使用，而不必回头去看 HTML。
+
+#### Sass缩进（Indenting Sass） ####
+> Sass provides nesting functionality. That is to say, by writing this:
+
+Sass 支持嵌套，如：
+
+	.foo {
+	    color: red;
+	
+	    .bar {
+	        color: blue;
+	    }
+	
+	}
+
+编译后的 CSS：
+
+	.foo { color: red; }
+	.foo .bar { color: blue; }
+
+> When indenting Sass, we stick to the same four (4) spaces, and we also leave a blank line before and after the nested ruleset.
+
+书写 Sass 的缩进时，我们仍坚持4个空格，我们也会在每个嵌套的前后各加一个空行。
+
+#### 对齐（Alignment） ####
+> Attempt to align common and related identical strings in declarations, for example:
+
+试着将声明内一些共有的、关联的字符串对齐，比如：
+
+	.foo {
+	    -webkit-border-radius: 3px;
+	       -moz-border-radius: 3px;
+	            border-radius: 3px;
+	}
+	
+	.bar {
+	    position: absolute;
+	    top:    0;
+	    right:  0;
+	    bottom: 0;
+	    left:   0;
+	    margin-right: -10px;
+	    margin-left:  -10px;
+	    padding-right: 10px;
+	    padding-left:  10px;
+	}
+
+> This makes life a little easier for developers whose text editors support column editing, allowing them to change several identical and aligned lines in one go.
+
+使用能支持多光标编辑的编辑器会更轻松，开发者们可以一次修改若干相同而对齐的代码行。
+
+### 有意义的空行（Meaningful Whitespace） ###
+> As well as indentation, we can provide a lot of information through liberal and judicious use of whitespace between rulesets. We use:
+
+>
+One (1) empty line between closely related rulesets.
+Two (2) empty lines between loosely related rulesets.
+Five (5) empty lines between entirely new sections.
+
+好比缩进，我们可以巧妙地利用规则间的空行来呈现许多信息，比如：
+
+- 紧密关联的规则之间空1行；
+- 不紧密关联的规则之间空2行；
+- 小节之间空5行。
+
+> For example:
+
+例如：
+
+	/*------------------------------------*\
+	    #FOO
+	\*------------------------------------*/
+	
+	.foo {}
+	
+	    .foo__bar {}
+	
+	
+	.foo--baz {}
+	
+	
+	
+	
+	
+	/*------------------------------------*\
+	    #BAR
+	\*------------------------------------*/
+	
+	.bar {}
+	
+	    .bar__baz {}
+	
+	    .bar__foo {}
+
+> There should never be a scenario in which two rulesets do not have an empty line between them. This would be incorrect:
+
+千万不要在两条规则之间不留空，这是不正确的：
+
+	.foo {}
+	    .foo__bar {}
+	.foo--baz {}
+
+### HTML ###
+> Given HTML and CSS’ inherently interconnected nature, it would be remiss of me to not cover some syntax and formatting guidelines for markup.
+
+基于 HTML 和 CSS 相互关联的天性，我若是不谈谈标记语言的语法和格式指导这说不过去。
+
+> Always quote attributes, even if they would work without. This reduces the chance of accidents, and is a more familiar format to the majority of developers. For all this would work (and is valid):
+
+将属性值用引号包裹，尽管没有引号也能工作。这能减少意外的可能性，也是大部分开发者惯用的格式。下面的写法能工作（也是有效的）：
+
+	<div class=box>
+
+> …this format is preferred:
+
+更倾向于这种：
+
+	<div class="box">
+
+> The quotes are not required here, but err on the safe side and include them.
+
+这里要求写引号，
+
+> When writing multiple values in a class attribute, separate them with two spaces, thus:
