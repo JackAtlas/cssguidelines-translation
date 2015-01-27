@@ -4,10 +4,10 @@
 > 编写稳健、可管理、可拓展 CSS 的高级指导。
 
 ## 关于作者（About the Author） ##
-[Harry Roberts](http://csswizardry.com/work/)
+请到原文中查找。
 
 ## 支持捐助（Support the Guidelines） ##
-[支持链接](https://gumroad.com/l/JAgjq)
+请到原文中查找。
 
 ## 目录（Contents） ##
 1. Introduction
@@ -73,11 +73,11 @@
 	1. 样式指导的重要性
 	2. 声明
 2. 语法及格式
-	1. 文件结构
+	1. 代码分割
 	2. 目录
 	3. 80个字宽
 	4. 标题
-	5. Anatomy of a Ruleset
+	5. 规则的结构
 	6. Multi-line CSS
 	7. 缩进
 		1. Sass 缩进
@@ -195,18 +195,199 @@ CSS 不是一门优美的语言。尽管入门容易，但在任何合理的规�
 这些指导是可选的，但它们都在多年大大小小的项目中被屡次尝试、测试、施压、改善、废弃、重写以及重现。
 
 ## 语法及格式（Syntax and Formatting） ##
-One of the simplest forms of a styleguide is a set of rules regarding syntax and formatting. Having a standard way of writing (literally writing) CSS means that code will always look and feel familiar to all members of the team.
+> One of the simplest forms of a styleguide is a set of rules regarding syntax and formatting. Having a standard way of writing (literally writing) CSS means that code will always look and feel familiar to all members of the team.
 
+> Further, code that looks clean feels clean. It is a much nicer environment to work in, and prompts other team members to maintain the standard of cleanliness that they found. Ugly code sets a bad precedent.
 
-Further, code that looks clean feels clean. It is a much nicer environment to work in, and prompts other team members to maintain the standard of cleanliness that they found. Ugly code sets a bad precedent.
+> At a very high-level, we want
 
-At a very high-level, we want
-
+>
 - four (4) space indents, no tabs;
 - 80 character wide columns;
 - multi-line CSS;
 - meaningful use of whitespace.
 
-But, as with anything, the specifics are somewhat irrelevant—consistency is key.
+> But, as with anything, the specifics are somewhat irrelevant—consistency is key.
 
-样式指导的一种最简单的形式是关于语法和格式的一系列规则。
+样式指导的一种最简单的形式是关于语法和格式的一系列规则。以标准方法书写 CSS 意味着对于团队的所有成员来说代码看起来总是很熟悉。
+
+另外，整洁的代码让人感觉清爽。这是个更容易投入工作的环境，促进其他团队成员去维持他们发现的整洁代码标准。丑陋的代码则会造成糟糕的先例。
+
+### 代码分割（Multiple Files） ###
+> With the meteoric rise of preprocessors of late, more often is the case that developers are splitting CSS across multiple files.
+
+> Even if not using a preprocessor, it is a good idea to split discrete chunks of code into their own files, which are concatenated during a build step.
+
+> If, for whatever reason, you are not working across multiple files, the next sections might require some bending to fit your setup.
+
+伴随着最近急速发展的预处理器，开发者通常将 CSS 分割成若干文件。
+
+尽管不使用预处理器，将不关联的代码快分割到独立的文件中也不失为一个好方法，在构建这一步中会重新拼凑起来。
+
+出于某些原因，如果你不希望代码分割，那么下一节内容可能需要做些调整来满足你的设置。
+
+### 目录（Table of Contents） ###
+> A table of contents is a fairly substantial maintenance overhead, but the benefits it brings far outweigh any costs. It takes a diligent developer to keep a table of contents up to date, but it is well worth sticking with. An up-to-date table of contents provides a team with a single, canonical catalogue of what is in a CSS project, what it does, and in what order.
+
+目录是需要经常维护管理的，但由此带来的好处大大超出其代价。目录需要一位勤奋的开发者去持续更新，但这很值得。一个最新的目录能让团队知道 CSS 项目里有什么、做什么、按什么顺序排列。
+
+> A simple table of contents will—in order, naturally—simply provide the name of the section and a brief summary of what it is and does, for example:
+
+一个简单的目录会（按顺序）列出小节的名字以及简要描述，例如：
+
+	/**
+	 * CONTENTS
+	 * 
+	 * SETTINGS
+	 * Global.................Globally-available variables and config.
+	 * 
+	 * TOOLS
+	 * Mixins.................Useful mixins.
+	 * 
+	 * GENERIC
+	 * Normalize.css..........A level playing field.
+	 * Box-sizing.............Better default 'box-sizing'.
+	 * 
+	 * BASE
+	 * Headings...............H1-H6 styles.
+	 * 
+	 * OBJECTS
+	 * Wrappers...............Wrapping and constraining elements.
+	 * 
+	 * COMPONENTS
+	 * Page-head..............The main page header.
+	 * Page-foot..............The main page footer.
+	 * Buttons................Button elements.
+	 * 
+	 * TRUMPS
+	 * Text...................Text helpers.
+	 */
+
+> Each item maps to a section and/or include.
+
+> Naturally, this section would be substantially larger on the majority of projects, but hopefully we can see how this section—in the master stylesheet—provides developers with a project-wide view of what is being used where, and why.
+
+每一项对应一小节及/或其内容。
+
+当然，多数项目中这些小节会非常庞大，但我们可以看到这些小结给开发者们提供了一个纵观全局的概览（在主样式表），可以看到哪里写了什么，为什么这么写。
+
+### 80字符宽度（80 Characters Wide） ###
+> Where possible, limit CSS files’ width to 80 characters. Reasons for this include
+
+>
+- the ability to have multiple files open side by side;
+- viewing CSS on sites like GitHub, or in terminal windows;
+- providing a comfortable line length for comments.
+
+可以的话，将 CSS 文件的宽度限制在80个字符内，原因如下：
+
+- 能并排打开多个文件；
+- 在线（如 Github）或终端中查看 CSS；
+- 这种长度的注释看起来更舒服。
+
+>
+
+	/**
+	 * I am a long-form comment. I describe, in detail, the CSS that follows. I am
+	 * such a long comment that I easily break the 80 character limit, so I am
+	 * broken across several lines.
+	 */
+
+> There will be unavoidable exceptions to this rule—such as URLs, or gradient syntax—which shouldn’t be worried about.
+
+有些不可避免的例外，比如 URL，或者渐变语法，这些都不必担心。
+
+### 标题（Titling） ###
+> Begin every new major section of a CSS project with a title:
+
+在 CSS 里每个主要部分之前都写一个标题：
+
+	/*------------------------------------*\
+	    #SECTION-TITLE
+	\*------------------------------------*/
+	
+	.selector {}
+
+> The title of the section is prefixed with a hash (#) symbol to allow us to perform more targeted searches (e.g. grep, etc.): instead of searching for just SECTION-TITLE—which may yield many results—a more scoped search of #SECTION-TITLE should return only the section in question.
+
+标题加上一个 `#` 前缀让我们搜索的时候更容易命中，单纯搜索标题可能会有很多结果。
+
+> Leave a carriage return between this title and the next line of code (be that a comment, some Sass, or some CSS).
+
+在标题和代码（另一端注释、Sass 或 CSS）之间留一个空行。
+
+> If you are working on a project where each section is its own file, this title should appear at the top of each one. If you are working on a project with multiple sections per file, each title should be preceded by five (5) carriage returns. This extra whitespace coupled with a title makes new sections much easier to spot when scrolling through large files:
+
+如果每一小节代码在不同的文件中，标题应该出现在文件的最上面。如果一个文件中含有多个小节，则每个标题上面都应该有5个空行。这样当在大文件中快速下拉时能迅速分辨出不同的小节。
+
+	/*------------------------------------*\
+	    #A-SECTION
+	\*------------------------------------*/
+	
+	.selector {}
+	
+	
+	
+	
+	
+	/*------------------------------------*\
+	    #ANOTHER-SECTION
+	\*------------------------------------*/
+	
+	/**
+	 * Comment
+	 */
+	
+	.another-selector {}
+
+### 规则的结构（Anatomy of a Ruleset） ###
+> Before we discuss how we write out our rulesets, let’s first familiarise ourselves with the relevant terminology:
+
+在讨论怎样写我们的规则之前，先来熟悉一下相关的术语：
+
+	[selector] {
+	    [property]: [value];
+	    [<--declaration--->]
+	}
+
+> For example:
+
+比如：
+
+	.foo, .foo--bar,
+	.baz {
+	    display: block;
+	    background-color: green;
+	    color: red;
+	}
+
+> Here you can see we have
+
+>
+- related selectors on the same line; unrelated selectors on new lines;
+- a space before our opening brace ({);
+- properties and values on the same line;
+- a space after our property–value delimiting colon (:);
+- each declaration on its own new line;
+- the opening brace ({) on the same line as our last selector;
+- our first declaration on a new line after our opening brace ({);
+- our closing brace (}) on its own new line;
+- each declaration indented by four (4) spaces;
+- a trailing semi-colon (;) on our last declaration.
+
+这里我们可以看到：
+
+- 相关的选择器在同一行，不相关的选择器再另一行；
+- 花括号（{）之前有个空格；
+- 属性和值在同一行；
+- 冒号（:）之后有个空格；
+- 每条声明独立一行；
+- 花括号（{）与最后一个选择器在同一行；
+- 第一条声明在花括号（{）的下一行；
+- 花括号（}）独立一行；
+- 每条声明有4个空格的缩进；
+- 最后一条声明后面也有分号（;）。
+
+> This format seems to be the largely universal standard (except for variations in number of spaces, with a lot of developers preferring two (2)).
+
+> As such, the following would be incorrect:
