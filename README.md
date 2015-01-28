@@ -697,4 +697,33 @@ Five (5) empty lines between entirely new sections.
 
 
 
-## 注释 ##
+## 注释（Commenting） ##
+> The cognitive overhead of working with CSS is huge. With so much to be aware of, and so many project-specific nuances to remember, the worst situation most developers find themselves in is being the-person-who-didn’t-write-this-code. Remembering your own classes, rules, objects, and helpers is manageable *to an extent*, but anyone inheriting CSS barely stands a chance.
+
+编写 CSS 之前的认知工作是非常巨大的。有很多事情要注意，不同项目中有很多细微的差别要记住，最糟糕的情况是大部分开发者发现他们“不是写这代码的人”。**在一定程度上**记忆你自己写的类名、规则、对象、辅助方法是可行的，但接受 CSS 的开发者则不然。
+
+> **CSS needs more comments.**
+
+**CSS 需要更多的注释。**
+
+> As CSS is something of a declarative language that doesn’t really leave much of a paper-trail, it is often hard to discern—from looking at the CSS alone—
+
+>
+- whether some CSS relies on other code elsewhere;
+- what effect changing some code will have elsewhere;
+- where else some CSS might be used;
+- what styles something might inherit (intentionally or otherwise);
+- what styles something might pass on (intentionally or otherwise);
+- where the author intended a piece of CSS to be used.
+
+CSS 是一种不会留下太多痕迹的声明式语言，但看 CSS 通常很难辨别：
+
+- 一段 CSS 是否与其他地方的代码相关联；
+- 一段 CSS 修改了其它地方会有什么影响；
+- 有没有别的 CSS 会用到；
+- 有何样式会被继承（有意无意的）；
+- 有何样式会被忽略（有意无意的）；
+- 某段 CSS 作者计划用在何处。
+
+> This doesn’t even take into account some of CSS’ many quirks—such as various sates of overflow triggering block formatting context, or certain transform properties triggering hardware acceleration—that make it even more baffling to developers inheriting projects.
+
