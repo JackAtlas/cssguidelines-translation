@@ -1,4 +1,15 @@
 # CSS 指导（CSS Guidelines） #
+译自 [CSS Guidelines](http://cssguidelin.es/)，感谢原作者 Harry Roberts。
+
+## 译者的话 ##
+最好还是阅读原文，因为译文毕竟经过译者的再加工，受限于译者的英语水平和国语水平，或许原作者的意思不能完全理解，理解的部分书写出来也可能辞不达意。
+
+**重要说明**
+
+1. 原文中 `rule` 指作者行文中的一些条目，而 `ruleset` 指 CSS 规则，文中暂时都翻译为“规则”，可能会造成一些表达上的误会，如果想到更合适的词语会替换；
+2. 欢迎各位指点。
+
+## 前言 ##
 > High-level advice and guidelines for writing sane, manageable, scalable CSS
 > 
 > 编写稳健、可管理、可拓展 CSS 的高级指导。
@@ -126,6 +137,10 @@
 	7. The Separation of Concerns
 		1. Misconceptions
 
+
+
+
+
 ## 介绍（Introduction） ##
 > CSS is not a pretty language. While it is simple to learn and get started with, it soon becomes problematic at any reasonable scale. There isn't much we can do to change how CSS works, but we can make changes to the way we author and structure it.
 
@@ -193,6 +208,10 @@ CSS 不是一门优美的语言。尽管入门容易，但在任何合理的规�
 《CSS 指导》是一篇样式指导，而不是唯一的样式标准。包含了我会向客户和团队推荐的方法论、技巧以及提示，但你自己的品味和环境可能大不相同。效果可能不一样。
 
 这些指导是可选的，但它们都在多年大大小小的项目中被屡次尝试、测试、施压、改善、废弃、重写以及重现。
+
+
+
+
 
 ## 语法及格式（Syntax and Formatting） ##
 > One of the simplest forms of a styleguide is a set of rules regarding syntax and formatting. Having a standard way of writing (literally writing) CSS means that code will always look and feel familiar to all members of the team.
@@ -601,3 +620,81 @@ Five (5) empty lines between entirely new sections.
 这里要求写引号，
 
 > When writing multiple values in a class attribute, separate them with two spaces, thus:
+
+当 `class` 属性里有多个值时，用2个空格隔开：
+
+	<div class="foo  bar">
+
+> When multiple classes are related to each other, consider grouping them in square brackets ([ and ]), like so:
+
+当多个 `class` 之间有关联，用方括号（`[` 和 `]`）包裹，就像这样：
+
+	<div class="[ box  box--highlight ]  [ bio  bio--long ]">
+
+> This is not a firm recommendation, and is something I am still trialling myself, but it does carry a number of benefits. Read more in [Grouping related classes in your markup](http://csswizardry.com/2014/05/grouping-related-classes-in-your-markup/).
+
+这一条不是强烈推荐，并且我也不太肯定，但确实带来了不少好处。详见[《在标记语言中给相关的类分组》](http://csswizardry.com/2014/05/grouping-related-classes-in-your-markup/)。
+
+> As with our rulesets, it is possible to use meaningful whitespace in your HTML. You can denote thematic breaks in content with five (5) empty lines, for example:
+
+如同我们的规则，在 HTML 中使用有意义的空行也是可能的。你可以用5个空行表示主题间的隔断，例如：
+
+	<header class="page-head">
+	    ...
+	</header>
+	
+	
+	
+	
+	
+	<main class="page-content">
+	    ...
+	</main>
+	
+	
+	
+	
+	
+	<footer class="page-foot">
+	    ...
+	</footer>
+
+> Separate independent but loosely related snippets of markup with a single empty line, for example:
+
+用1个空行将独立却稍有关联的片段隔开，例如：
+
+	<ul class="primary-nav">
+	
+	    <li class="primary-nav__item">
+	        <a href="/" class="primary-nav__link">Home</a>
+	    </li>
+	
+	    <li class="primary-nav__item  primary-nav__trigger">
+	        <a href="/about" class="primary-nav__link">About</a>
+	
+	        <ul class="primary-nav__sub-nav">
+	            <li><a href="/about/products">Products</a></li>
+	            <li><a href="/about/company">Company</a></li>
+	        </ul>
+	
+	    </li>
+	
+	    <li class="primary-nav__item">
+	        <a href="/contact" class="primary-nav__link">Contact</a>
+	    </li>
+	
+	</ul>
+
+> This allows developers to spot separate parts of the DOM at a glance, and also allows certain text editors—like Vim, for example—to manipulate empty-line-delimited blocks of markup.
+
+这让开发者一眼就能看出 DOM 结构中的不同部分，同时也能让某些编辑器（如 Vim）去处理空行分界的代码区域。
+
+### 深度阅读 ###
+
+- [《在标记语言中给相关的类分组》](http://csswizardry.com/2014/05/grouping-related-classes-in-your-markup/)
+
+
+
+
+
+## 注释 ##
