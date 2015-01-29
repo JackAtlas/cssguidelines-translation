@@ -1,5 +1,10 @@
 # CSS 指导（CSS Guidelines） #
-译自 [CSS Guidelines](http://cssguidelin.es/)，感谢原作者 Harry Roberts。
+本文由[小智](http://jackatlas.com/)根据 [Harry Roberts](http://csswizardry.com/work/) 的 《[CSS Guidelines](http://cssguidelin.es/)》所译。译文带有我自己的理解和思想，如需转载请注明相关信息：
+
+>
+原文地址：[http://cssguidelin.es/](http://cssguidelin.es/)  
+——作者：[Harry Roberts](http://csswizardry.com/work/)  
+——译者：[小智](http://jackatlas.com/)
 
 ## 译者的话 ##
 最好还是阅读原文，因为译文毕竟经过译者的再加工，受限于译者的英语水平和国语水平，或许原作者的意思不能完全理解，理解的部分书写出来也可能辞不达意。
@@ -15,7 +20,7 @@
 > 编写稳健、可管理、可拓展 CSS 的高级指导。
 
 ## 关于作者（About the Author） ##
-请到原文中查找。
+[Harry Roberts](http://csswizardry.com/work/)
 
 ## 支持捐助（Support the Guidelines） ##
 请到原文中查找。
@@ -333,7 +338,7 @@ CSS 不是一门优美的语言。尽管入门容易，但在任何合理的规�
 
 > Leave a carriage return between this title and the next line of code (be that a comment, some Sass, or some CSS).
 
-在标题和代码（另一端注释、Sass 或 CSS）之间留一个空行。
+在标题和代码（另一段注释、Sass 或 CSS）之间留一个空行。
 
 > If you are working on a project where each section is its own file, this title should appear at the top of each one. If you are working on a project with multiple sections per file, each title should be preceded by five (5) carriage returns. This extra whitespace coupled with a title makes new sections much easier to spot when scrolling through large files:
 
@@ -725,5 +730,60 @@ CSS 是一种不会留下太多痕迹的声明式语言，但看 CSS 通常很�
 - 有何样式会被忽略（有意无意的）；
 - 某段 CSS 作者计划用在何处。
 
-> This doesn’t even take into account some of CSS’ many quirks—such as various sates of overflow triggering block formatting context, or certain transform properties triggering hardware acceleration—that make it even more baffling to developers inheriting projects.
+> This doesn’t even take into account some of CSS’ many quirks—such as various sates of `overflow` triggering block formatting context, or certain transform properties triggering hardware acceleration—that make it even more baffling to developers inheriting projects.
 
+我们甚至无需重视一些会让接手项目的开发者更棘手的诡异地方（比如 `overflow` 会触发 BFC，或者某些 `transform` 属性会触发硬件加速）。
+
+> As a result of CSS not telling its own story very well, it is a language that really does benefit from being heavily commented.
+
+由于 CSS 没有将自己的特性表述清楚，因此需要大量的注释。
+
+> As a rule, you should comment anything that isn’t immediately obvious from the code alone. That is to say, there is no need to tell someone that `color: red;` will make something red, but if you’re using `overflow: hidden;` to clear floats—as opposed to clipping an element’s overflow—this is probably something worth documenting.
+
+一条规则是，你应该在任何有不直接明显信息的代码处写注释。意思是说，没必要告诉别人 `color: red;` 是用来变红的，但如果你用 `overflow: hidden;` 来清除浮动（和闭合浮动相对），这可能是值得记入文档的。
+
+### 高级（High-level） ###
+> For large comments that document entire sections or components, we use a DocBlock-esque multi-line comment which adheres to our 80 column width.
+
+我们用一块80字符宽的多行注释来为整个小节或组件写注释。
+
+> Here is a real-life example from the CSS which styles the page header on CSS Wizardry:
+
+这是一个真实的例子，CSS Wizardry 的页头样式注释：
+
+	/**
+	 * The site’s main page-head can have two different states:
+	 *
+	 * 1) Regular page-head with no backgrounds or extra treatments; it just
+	 *    contains the logo and nav.
+	 * 2) A masthead that has a fluid-height (becoming fixed after a certain point)
+	 *    which has a large background image, and some supporting text.
+	 *
+	 * The regular page-head is incredibly simple, but the masthead version has some
+	 * slightly intermingled dependency with the wrapper that lives inside it.
+	 */
+
+> This level of detail should be the norm for all non-trivial code—descriptions of states, permutations, conditions, and treatments.
+
+这种级别的细节应是对规定、序列、条件、处理方案等进行代码描述的样板。
+
+#### 对象扩展指针 （Objective-Extension Pointers） ####
+> When working across multiple partials, or in an OOCSS manner, you will often find that rulesets that can work in conjunction with each other are not always in the same file or location. For example, you may have a generic button object—which provides purely structural styles—which is to be extended in a component-level partial which will add cosmetics. We document this relationship across files with simple object–extension pointers. In the object file:
+
+	/**
+	 * Extend `.btn {}` in _components.buttons.scss.
+	 */
+	
+	.btn {}
+
+> And in your theme file:
+
+	/**
+	 * These rules extend `.btn {}` in _objects.buttons.scss.
+	 */
+	
+	.btn--positive {}
+	
+	.btn--negative {}
+
+> This simple, low effort commenting can make a lot of difference to developers who are unaware of relationships across projects, or who are wanting to know how, why, and where other styles might be being inherited from.
