@@ -101,9 +101,9 @@
 	8. 有意义的空行
 	9. HTML
 3. 注释
-	1. High-level
-		1. Object-Extension Pointers
-	2. Low-level
+	1. 高级
+		1. 对象扩展指针
+	2. 低级
 	3. Proprocessor Comments
 	4. Removing Comments
 4. 命名规则
@@ -770,7 +770,7 @@ CSS 是一种不会留下太多痕迹的声明式语言，但看 CSS 通常很�
 #### 对象扩展指针 （Objective-Extension Pointers） ####
 > When working across multiple partials, or in an OOCSS manner, you will often find that rulesets that can work in conjunction with each other are not always in the same file or location. For example, you may have a generic button object—which provides purely structural styles—which is to be extended in a component-level partial which will add cosmetics. We document this relationship across files with simple object–extension pointers. In the object file:
 
-当你
+当你要维护众多的模块，或者应用 OOCSS 的概念，你会发现相关联的 CSS 规则不总是在同一个文件或位置。例如，你会有一个按钮类的对象（纯粹提供结构样式），在皮肤组件部分中会有所扩展。我们用简单的对象扩展指针来记录这些跨文件的关系。在对象文件中：
 
 	/**
 	 * Extend `.btn {}` in _components.buttons.scss.
@@ -779,6 +779,8 @@ CSS 是一种不会留下太多痕迹的声明式语言，但看 CSS 通常很�
 	.btn {}
 
 > And in your theme file:
+
+在主体文件中：
 
 	/**
 	 * These rules extend `.btn {}` in _objects.buttons.scss.
@@ -789,3 +791,91 @@ CSS 是一种不会留下太多痕迹的声明式语言，但看 CSS 通常很�
 	.btn--negative {}
 
 > This simple, low effort commenting can make a lot of difference to developers who are unaware of relationships across projects, or who are wanting to know how, why, and where other styles might be being inherited from.
+
+这种简单的注释能极大地方便那些不知道项目间关系，或者想知道样式是如何、为何、从何继承的开发者。
+
+
+### 低级（Low-level） ###
+> Oftentimes we want to comment on specific declarations (i.e. lines) in a ruleset. To do this we use a kind of reverse footnote. Here is a more complex comment detailing the larger site headers mentioned above:
+
+很多时候我们想对一条规则中的多条声明进行注释。我们用一种颠倒的脚注。下面是一段更复杂的关于生面说到的网站头的注释。
+
+	/**
+	 * Large site headers act more like mastheads. They have a faux-fluid-height
+	 * which is controlled by the wrapping element inside it.
+	 *
+	 * 1. Mastheads will typically have dark backgrounds, so we need to make sure
+	 *    the contrast is okay. This value is subject to change as the background
+	 *    image changes.
+	 * 2. We need to delegate a lot of the masthead’s layout to its wrapper element
+	 *    rather than the masthead itself: it is to this wrapper that most things
+	 *    are positioned.
+	 * 3. The wrapper needs positioning context for us to lay our nav and masthead
+	 *    text in.
+	 * 4. Faux-fluid-height technique: simply create the illusion of fluid height by
+	 *    creating space via a percentage padding, and then position everything over
+	 *    the top of that. This percentage gives us a 16:9 ratio.
+	 * 5. When the viewport is at 758px wide, our 16:9 ratio means that the masthead
+	 *    is currently rendered at 480px high. Let’s…
+	 * 6. …seamlessly snip off the fluid feature at this height, and…
+	 * 7. …fix the height at 480px. This means that we should see no jumps in height
+	 *    as the masthead moves from fluid to fixed. This actual value takes into
+	 *    account the padding and the top border on the header itself.
+	 */
+
+	.page-head--masthead {
+    	margin-bottom: 0;
+	    background: url(/img/css/masthead.jpg) center center #2e2620;
+    	@include vendor(background-size, cover);
+    	color: $color-masthead; /* [1] */
+    	border-top-color: $color-masthead;
+    	border-bottom-width: 0;
+    	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) inset;
+
+    	@include media-query(lap-and-up) {
+    	    background-image: url(/img/css/masthead-medium.jpg);
+    	}
+
+    	@include media-query(desk) {
+    	    background-image: url(/img/css/masthead-large.jpg);
+    	}
+
+    	> .wrapper { /* [2] */
+    	    position: relative; /* [3] */
+    	    padding-top: 56.25%; /* [4] */
+
+	        @media screen and (min-width: 758px) { /* [5] */
+            	padding-top: 0; /* [6] */
+            	height: $header-max-height - double($spacing-unit) - $header-border-width; /* [7] */
+        	}
+
+    	}
+
+	}
+
+> These types of comment allow us to keep all of our documentation in one place whilst referring to the parts of the ruleset to which they belong.
+
+这类注释允许我们将所有的文档写到一起，并且指向各自标注的地方。
+
+### Preprocessor Comments ###
+> With most—if not all—preprocessors, we have the option to write comments that will not get compiled out into our resulting CSS file. As a rule, use these comments to document code that would not get written out to that CSS file either. If you are documenting code which will get compiled, use comments that will compile also. For example, this is correct:
+
+	// Dimensions of the @2x image sprite:
+	$sprite-width:  920px;
+	$sprite-height: 212px;
+	
+	/**
+	 * 1. Default icon size is 16px.
+	 * 2. Squash down the retina sprite to display at the correct size.
+	 */
+	.sprite {
+	    width:  16px; /* [1] */
+	    height: 16px; /* [1] */
+	    background-image: url(/img/sprites/main.png);
+	    background-size: ($sprite-width / 2 ) ($sprite-height / 2); /* [2] */
+	}
+
+> We have documented variables—code which will not get compiled into our CSS file—with preprocessor comments, whereas our CSS—code which will get compiled into our CSS file—is documented using CSS comments. This means that we have only the correct and relevant information available to us when debugging our compiled stylesheets.
+
+### Removing Comments ###
+> It should go without saying that no comments should make their way into production environments—all CSS should be minified, resulting in loss of comments, before being deployed.
