@@ -770,6 +770,8 @@ CSS 是一种不会留下太多痕迹的声明式语言，但看 CSS 通常很�
 #### 对象扩展指针 （Objective-Extension Pointers） ####
 > When working across multiple partials, or in an OOCSS manner, you will often find that rulesets that can work in conjunction with each other are not always in the same file or location. For example, you may have a generic button object—which provides purely structural styles—which is to be extended in a component-level partial which will add cosmetics. We document this relationship across files with simple object–extension pointers. In the object file:
 
+当你
+
 	/**
 	 * Extend `.btn {}` in _components.buttons.scss.
 	 */
