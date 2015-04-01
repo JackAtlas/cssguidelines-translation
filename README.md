@@ -16,7 +16,7 @@
 
 ## 前言 ##
 > High-level advice and guidelines for writing sane, manageable, scalable CSS
-> 
+
 > 编写稳健、可管理、可拓展 CSS 的高级指导。
 
 ## 关于作者（About the Author） ##
@@ -56,7 +56,7 @@
 	3. Naming Conventions in HTML
 	4. JavaScript Hooks
 		1. `data-*` Attributes
-	5. Taking It Further 
+	5. Taking It Further
 5. CSS Selectors
 	1. Selector Intent
 	2. Reusability
@@ -115,7 +115,7 @@
 	3. HTML 命名规则
 	4. JavaScript 钩子
 		1. `data-*` 属性
-	5. Taking It Further 
+	5. Taking It Further
 5. CSS 选择器
 	1. Selector Intent
 	2. 重用性
@@ -780,7 +780,7 @@ CSS 是一种不会留下太多痕迹的声明式语言，但看 CSS 通常很�
 
 > And in your theme file:
 
-在主体文件中：
+在主题文件中：
 
 	/**
 	 * These rules extend `.btn {}` in _objects.buttons.scss.
@@ -857,8 +857,10 @@ CSS 是一种不会留下太多痕迹的声明式语言，但看 CSS 通常很�
 
 这类注释允许我们将所有的文档写到一起，并且指向各自标注的地方。
 
-### Preprocessor Comments ###
+### 预处理注释 ###
 > With most—if not all—preprocessors, we have the option to write comments that will not get compiled out into our resulting CSS file. As a rule, use these comments to document code that would not get written out to that CSS file either. If you are documenting code which will get compiled, use comments that will compile also. For example, this is correct:
+
+在大部分的预处理程序中，我们可以通过配置项使注释不会在编译时被省略掉。用这种注释来记录不需被省略的代码。如果有些代码要在编译时被省略则使用会被省略的注释。例如：
 
 	// Dimensions of the @2x image sprite:
 	$sprite-width:  920px;
@@ -877,5 +879,192 @@ CSS 是一种不会留下太多痕迹的声明式语言，但看 CSS 通常很�
 
 > We have documented variables—code which will not get compiled into our CSS file—with preprocessor comments, whereas our CSS—code which will get compiled into our CSS file—is documented using CSS comments. This means that we have only the correct and relevant information available to us when debugging our compiled stylesheets.
 
-### Removing Comments ###
+我们用预处理注释来记录变量（这些代码不会被写进 CSS 文件），而 CSS 则使用 CSS 注释。这意味着当我们 debug 样式表的时候只有正确的相关联的信息。
+
+### 删除注释 ###
 > It should go without saying that no comments should make their way into production environments—all CSS should be minified, resulting in loss of comments, before being deployed.
+
+产品环境中应该没有注释，发布前所有的 CSS 都经过压缩。
+
+
+
+
+
+## 命名规则（Naming Conventions） ##
+> Naming conventions in CSS are hugely useful in making your code more strict, more transparent, and more informative.
+
+CSS 中的命名规则非常有用，让你的代码更加严谨，更加显而易见，更加信息化。
+
+> A good naming convention will tell you and your team
+
+>
+- what type of thing a class does;
+- where a class can be used;
+- what (else) a class might be related to.
+
+好的命名规则能告诉你和你的团队：
+
+- 某个类做了什么类型的事；
+- 某个类能用在什么地方；
+- 什么样的类会有关联。
+
+> The naming convention I follow is very simple: hyphen (-) delimited strings, with BEM-like naming for more complex pieces of code.
+
+我使用的命名规则很简单：横杠（-）分割字符串，复杂的代码就用 BEM 规则命名。
+
+> It’s worth noting that a naming convention is not normally useful CSS-side of development; they really come into their own when viewed in HTML.
+
+（这句不懂）
+
+### 连字符分界 ###
+> All strings in classes are delimited with a hyphen (-), like so:
+
+类名中的所有字符串都用连字符（-）隔开，就像：
+
+	.page-head {}
+
+	.sub-content {}
+
+> Camel case and underscores are not used for regular classes; the following are incorrect:
+
+驼峰规则和下划线不用于一般的类名，以下是不正确的：
+
+	.pageHead {}
+
+	.sub_content {}
+
+### 仿 BEM 命名 ###
+> For larger, more interrelated pieces of UI that require a number of classes, we use a BEM-like naming convention.
+
+规模更大、关联度更高的UI要求大量的类，对此我们使用 BEM 命名约定。
+
+> *BEM*, meaning *Block*, *Element*, *Modifier*, is a front-end methodology coined by developers working at Yandex. Whilst BEM is a complete methodology, here we are only concerned with its naming convention. Further, the naming convention here only is BEM-*like*; the principles are exactly the same, but the actual syntax differs slightly.
+
+BEM，意思是“Block”、“Element”、“Modifier”，是一种由 Yandex 的开发者们提出的前端思想。BEM 是一套完整的方法论，这里我们只关心它的命名规则。另外，这里的命名规则只是“仿”BEM，宗旨相同，但实际的语法略有不同。
+
+> BEM splits components’ classes into three groups:
+
+- Block: The sole root of the component.
+- Element: A component part of the Block.
+- Modifier: A variant or extension of the Block.
+
+BEM 将组件类名分开成三个部分：
+
+- Block：组件唯一的根；
+- Element：Block 中组件的一部分；
+- Modifier：Block 的变体或延伸（即修饰）。
+
+> To take an analogy (note, not an example):
+
+对比一下（注意，不是例子）：
+
+	.person {}
+	.person__head {}
+	.person--tall {}
+
+> Elements are delimited with two (2) underscores (__), and Modifiers are delimited by two (2) hyphens (--).
+
+Elements 用两个下划线（__）隔开，Modifiers 用两个连字符隔开（--）。
+
+> Here we can see that `.person {}` is the Block; it is the sole root of a discrete entity. `.person__head {}` is an Element; it is a smaller part of the `.person {}` Block. Finally, `.person--tall {}` is a Modifier; it is a specific variant of the `.person {}` Block.
+
+这里我们看到 `.person {}` 是 Block，根。`.person__head {}` 是一个 Element，`.person {}` Block 的一个小部分。`.person--tall {}` 是一个 Modifier，是 `.person {}` Block 的一个变体。
+
+### Starting Context ###
+> Your Block context starts at the most logical, self-contained, discrete location. To continue with our person-based analogy, we’d not have a class like `.room__person {}`, as the room is another, much higher context. We’d probably have separate Blocks, like so:
+
+你的 Block 从最逻辑化、最独立、最分离的位置开始。继续上面的类比，我们不使用像 `.room__person {}` 这样的类名，因为 room 是另一个更高级的语境。我们可能会把 Blocks 相互分离，例如：
+
+	.room {}
+	
+	    .room__door {}
+	
+	.room--kitchen {}
+	
+	
+	.person {}
+	
+	    .person__head {}
+
+> If we did want to denote a `.person {}` inside a `.room {}`, it is more correct to use a selector like `.room .person {}` which bridges two Blocks than it is to increase the scope of existing Blocks and Elements.
+
+如果我们真的想表示 `.room {}` 里面的 `.person {}`，使用 `.room .person {}` 来连接两个 Block 会比增加现有的 Block 和 Element 作用域更好。
+
+> A more realistic example of properly scoped blocks might look something like this, where each chunk of code represents its own Block:
+
+更实际的例子可能是这样的，每个代码块都只代表各自的 Block：
+
+	.page {}
+	
+	
+	.content {}
+	
+	
+	.sub-content {}
+	
+	
+	.footer {}
+	
+	    .footer__copyright {}
+
+> Incorrect notation for this would be:
+
+以下是不正确的标记法：
+
+.page {}
+
+    .page__content {}
+
+    .page__sub-content {}
+
+    .page__footer {}
+
+        .page__copyright {}
+
+> It is important to know when BEM scope starts and stops. As a rule, BEM applies to self-contained, discrete parts of the UI.
+
+知道 BEM 作用域很重要，BEM 应用于独立、互不关联的 UI 组件。
+
+## 更多视图（More Layers） ##
+> If we were to add another Element—called, let’s say, `.person__eye {}`—to this `.person {}` component, we would not need to step through every layer of the DOM. That is to say, the correct notation would be `.person__eye {}`, and not `.person__head__eye {}`. Your classes do not reflect the full paper-trail of the DOM.
+
+如果我们要添加一个 Element，比如在 `.person {}` 中添加 `.person__eye {}`，我们不需把 DOM 中的节点都写上。换句话说，正确的标记法是 `.person__eye {}` 而不是 `.person__head__eye {}`。你的类名不需反映出整条 DOM 的路径。
+
+## 修饰 Element（Modifying Elements） ##
+> You can have variants of Elements, and these can be denoted in a number of ways depending on how and why they are being modified. Carrying on with our person example, a blue eye might look like this:
+
+你可以定义大量的 Element，根据不同的修饰有许多的命名。继续上面的例子，蓝眼睛可能是这样的：
+
+	.person__eye--blue {}
+
+> Here we can see we’re directly modifying the eye Element.
+
+这里可以看到我们直接修饰了 eye Element。
+
+> Things can get more complex, however. Please excuse the crude analogy, and let’s imagine we have a face Element that is handsome. The person themselves isn’t that handsome, so we modify the face Element directly—a handsome face on a regular person:
+
+但是情况可能会更复杂，想象一下有个 handsome 的 face Element， 而 person 不 handsome。我们直接修饰 face Element，普通 person 里的 handsome face。
+
+	.person__face--handsome {}
+
+> But what if that person is handsome, and we want to style their face because of that fact? A regular face on a handsome person:
+
+但如果 person 是 handsome 的呢？Handsome person 里的普通 face。
+
+	.person--handsome .person__face {}
+
+> Here is one of a few occasions where we’d use a descendant selector to modify an Element based on a Modifier on the Block.
+
+
+
+> If using Sass, we would likely write this like so:
+
+	.person {}
+	
+	    .person__face {
+	
+	        .person--handsome & {}
+	
+	    }
+	
+	.person--handsome {}
